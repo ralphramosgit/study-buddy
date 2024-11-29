@@ -34,14 +34,15 @@ model User {
 }
 
 model Profile {
-  id        Int    @id @default(autoincrement())
-  firstName String
-  lastName  String
-  userId    Int    @unique
-  user      User   @relation(fields: [userId], references: [id])
-  major     String
-  social    String
-  bio       String
+  id          Int         @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  userId      Int         @unique
+  user        User        @relation(fields: [userId], references: [id])
+  major       String
+  social      String
+  bio         String
+  collegeRole CollegeRole
 }
 
 model StudySession {
@@ -59,6 +60,12 @@ model StudySession {
   sessionDate DateTime
   startTime   DateTime
   endTime     DateTime
+}
+
+enum CollegeRole {
+  Student
+  TA
+  LA
 }
 
 enum Condition {

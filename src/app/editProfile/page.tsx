@@ -1,7 +1,9 @@
 'use client';
 
+import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Container, Row, Col, Card, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Card, Form, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { CollegeRole } from '@prisma/client';
 import swal from 'sweetalert';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -11,12 +13,17 @@ import { createProfile } from '@/lib/dbActions';
 import { CreateProfileSchema } from '@/lib/validationSchemas';
 import '../../styles/editProfile.style.css';
 
-const onSubmit = async (data: {
-  firstName: string;
-  lastName: string;
-  major: string;
-  social: string;
-  bio: string; }, session: any) => {
+const onSubmit = async (
+  data: {
+    firstName: string;
+    lastName: string;
+    major: string;
+    social: string;
+    bio: string;
+    collegeRole: CollegeRole;
+  },
+  session: any,
+) => {
   // console.log(`onSubmit data: ${JSON.stringify(data, null, 2)}`);
   const userId = parseInt(session?.user?.id, 10); // Assuming userId is available in session
   await createProfile({ ...data, userId, id: userId });
@@ -28,10 +35,12 @@ const onSubmit = async (data: {
 
 const EditProfile: React.FC = () => {
   const { data: session, status } = useSession();
+  const [selectedRole, setSelectedRole] = useState<CollegeRole | null>(null);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(CreateProfileSchema),
@@ -42,6 +51,15 @@ const EditProfile: React.FC = () => {
   if (status === 'unauthenticated') {
     redirect('/auth/signin');
   }
+
+  const handleRoleSelect = (eventKey: string | null) => {
+    if (eventKey) {
+      const role = eventKey as CollegeRole;
+      setSelectedRole(role);
+      // This ensures the value is registered with react-hook-form
+      setValue('collegeRole', role);
+    }
+  };
 
   return (
     <div className="p-5">
@@ -114,16 +132,36 @@ const EditProfile: React.FC = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label />
-                        <input
-                          type="text"
-                          {...register('social')}
-                          className={`form-control ${errors.social ? 'is-invalid' : ''}`}
-                          placeholder="Social"
-                        />
-                        <div className="invalid-feedback" />
+                        <DropdownButton
+                          id="dropdown-basic-button"
+                          title={selectedRole || 'College Role'}
+                          onSelect={handleRoleSelect}
+                          className={`${errors.collegeRole ? 'is-invalid' : ''}`}
+                        >
+                          {Object.values(CollegeRole).map((role) => (
+                            <Dropdown.Item key={role} eventKey={role}>
+                              {role}
+                            </Dropdown.Item>
+                          ))}
+                        </DropdownButton>
+                        {/* Hidden input to work with react-hook-form */}
+                        <input type="hidden" {...register('collegeRole')} value={selectedRole || ''} />
+                        {errors.collegeRole && (
+                          <div className="invalid-feedback d-block">{errors.collegeRole.message}</div>
+                        )}
                       </Form.Group>
                     </Col>
                   </Row>
+                  <Form.Group>
+                    <Form.Label />
+                    <input
+                      type="text"
+                      {...register('social')}
+                      className={`form-control ${errors.social ? 'is-invalid' : ''}`}
+                      placeholder="Social"
+                    />
+                    <div className="invalid-feedback" />
+                  </Form.Group>
                   <Form.Group>
                     <Form.Label />
                     <textarea

@@ -38,13 +38,18 @@ const myProfile = async () => {
                   {profile.major}
                 </h5>
                 <h5>
-                  <strong>Bio: </strong>
-                  {profile.bio}
+                  <strong>Role:</strong>
+                  {profile.collegeRole}
                 </h5>
                 <h5>
                   <strong>Socials: </strong>
                   {profile.social}
                 </h5>
+                <h5>
+                  <strong>Bio: </strong>
+                  {profile.bio}
+                </h5>
+
                 {/* add profile.major here within h5 tag and other datafields */}
               </div>
             ))}

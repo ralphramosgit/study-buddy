@@ -66,6 +66,7 @@ export async function createProfile(profile: Profile) {
         major: profile.major,
         social: profile.social,
         bio: profile.bio,
+        collegeRole: profile.collegeRole,
       },
     });
   } else {
@@ -78,6 +79,7 @@ export async function createProfile(profile: Profile) {
         major: profile.major,
         social: profile.social,
         bio: profile.bio,
+        collegeRole: profile.collegeRole,
       },
     });
   }

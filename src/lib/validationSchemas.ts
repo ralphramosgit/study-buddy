@@ -1,3 +1,4 @@
+import { CollegeRole } from '@prisma/client';
 import * as Yup from 'yup';
 
 export const AddStuffSchema = Yup.object({
@@ -21,6 +22,7 @@ export const CreateProfileSchema = Yup.object({
   major: Yup.string().required(),
   social: Yup.string().required(),
   bio: Yup.string().required(),
+  collegeRole: Yup.string().oneOf(Object.values(CollegeRole)).required(),
 });
 
 export const CreateSessionSchema = Yup.object({
