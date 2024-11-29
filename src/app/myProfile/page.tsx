@@ -49,7 +49,6 @@ const myProfile = async () => {
                   <strong>Bio: </strong>
                   {profile.bio}
                 </h5>
-
                 {/* add profile.major here within h5 tag and other datafields */}
               </div>
             ))}
