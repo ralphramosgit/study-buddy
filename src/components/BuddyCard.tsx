@@ -101,7 +101,6 @@ const BuddyCard = ({ buddyList, currentUser }: { buddyList: ExtendedBuddy[]; cur
                         </Badge>
                       );
                     })()}
-                    {buddy.userDupe.profile?.collegeRole ?? 'No College Role'}
                     <p>
                       <strong>Socials:</strong>
                       {buddy.userDupe.profile?.social ?? 'No Social'}
