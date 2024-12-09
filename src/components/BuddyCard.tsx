@@ -5,7 +5,7 @@ import { addBuddy } from '@/lib/dbActions';
 import { Buddy } from '@prisma/client';
 // import { StarFill } from 'react-bootstrap-icons';
 import swal from 'sweetalert';
-import { Card, Button, Image } from 'react-bootstrap';
+import { Card, Button, Image, Badge } from 'react-bootstrap';
 import SearchBuddies from './SearchBuddies';
 import '../styles/buddyCard.style.css';
 
@@ -76,10 +76,32 @@ const BuddyCard = ({ buddyList, currentUser }: { buddyList: ExtendedBuddy[]; cur
                       <strong>Major:</strong>
                       {buddy.userDupe.profile?.major ?? 'No Major'}
                     </p>
-                    <p>
-                      <strong>Role:</strong>
-                      {buddy.userDupe.profile?.collegeRole ?? 'No College Role'}
-                    </p>
+                    {(() => {
+                      let role = 'role';
+
+                      let pillColor = 'primary';
+                      if (buddy.userDupe.profile?.collegeRole === 'Student') {
+                        role = 'Student';
+                        pillColor = 'success';
+                      }
+
+                      if (buddy.userDupe.profile?.collegeRole === 'LA') {
+                        role = 'LA';
+                        pillColor = 'warning';
+                      }
+
+                      if (buddy.userDupe.profile?.collegeRole === 'TA') {
+                        role = 'TA';
+                        pillColor = 'danger';
+                      }
+
+                      return (
+                        <Badge pill bg={pillColor}>
+                          {role}
+                        </Badge>
+                      );
+                    })()}
+                    {buddy.userDupe.profile?.collegeRole ?? 'No College Role'}
                     <p>
                       <strong>Socials:</strong>
                       {buddy.userDupe.profile?.social ?? 'No Social'}
