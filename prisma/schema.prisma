@@ -34,6 +34,7 @@ model User {
   StudySession StudySession[]
   //public buddies all buddies:
   buddy        Buddy[]
+  Playlist     Playlist[]
 }
 
 model Profile {
@@ -78,6 +79,13 @@ model StudySession {
   startTime   DateTime
   endTime     DateTime
   image       String
+}
+
+model Playlist {
+  id         Int  @id @default(autoincrement())
+  playlistId Int  @unique
+  userId     Int
+  owner      User @relation(fields: [userId], references: [id])
 }
 
 enum Condition {

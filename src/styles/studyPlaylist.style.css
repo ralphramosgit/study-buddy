@@ -30,7 +30,9 @@
   border-radius: 20px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Reduced shadow intensity */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  transition:
+    transform 0.2s ease-in-out,
+    box-shadow 0.2s ease-in-out;
 }
 
 .createBtn:hover {
@@ -99,10 +101,24 @@
   border-radius: 5px;
   padding: 10px 20px;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
 }
 
 .uploadBtn:hover {
   background-color: #7cfbdf;
   color: white;
+}
+
+.playlistFormCard {
+  display: flex;
+  margin-bottom: 20px;
+  background-color: #7cfbdf;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  height: 120px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }

@@ -1,60 +1,68 @@
-// 'use client';
+'use client';
 
-// import { useState } from 'react';
-import authOptions from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import React from 'react';
+import { Card, Button, Form } from 'react-bootstrap';
+import { useSession } from 'next-auth/react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { addPlaylist } from '@/lib/dbActions';
+import swal from 'sweetalert';
+import LoadingSpinner from '@/components/LoadingSpinner';
+import { redirect } from 'next/navigation';
 // import { prisma } from '@/lib/prisma';
-// import SearchBuddies from '../../components/SearchBuddies';
-import { Card } from 'react-bootstrap';
+import PlaylistCard from '../../components/PlaylistCard';
+
 import '../../styles/studyPlaylist.style.css';
 
-const studyPlaylist = async () => {
-  // const [search, setSearch] = useState('');
+const onSubmit = async (
+  data: {
+    playlistUrl: string;
+  },
+  session: any,
+) => {
+  const currentUser = parseInt(session?.user?.id, 10);
+  await addPlaylist({ ...data, id: currentUser, userId: currentUser });
 
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user || !session.user.email) {
-    return <div>Session not found</div>;
+  swal('Success!', 'Added playlist', 'success', {
+    timer: 1000,
+  });
+};
+
+const studyPlaylist: React.FC = () => {
+  const { data: session, status } = useSession();
+  const { register, handleSubmit, setValue } = useForm({
+    resolver: yupResolver(addPlaylistSchema),
+  });
+
+  if (status === 'loading') {
+    return <LoadingSpinner />;
   }
+  if (status === 'unauthenticated') {
+    redirect('/auth/signin');
+  }
+
   return (
     <div className="playlist">
-      {/* Page Title */}
       <h1 className="studyPlaylistTitle">
         <strong>Study Playlist</strong>
       </h1>
 
-      {/* Playlist Container */}
+      <Card className="playlistFormCard">
+        <Card.Body>
+          <Form onSubmit={handleSubmit((data) => onSubmit(data, session))}>
+            <Form.Group>
+              <Form.Label>Share your study playlist</Form.Label>
+              <input type="text" placeholder="Enter playlist URL" {...register('url')} />
+            </Form.Group>
+          </Form>
+          <Button className="cSbutton" type="submit" variant="primary">
+            Add Playlist
+          </Button>
+        </Card.Body>
+      </Card>
+
       <div className="playlistListDiv">
-        <div className="playlistList">
-          {/* Playlist 1 */}
-          <Card className="playlistCard">
-            <h3>Playlist 1</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist1"
-              readOnly
-            />
-          </Card>
-
-          {/* Playlist 2 */}
-          <Card className="playlistCard">
-            <h3>Playlist 2</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist2"
-              readOnly
-            />
-          </Card>
-
-          {/* Playlist 3 */}
-          <Card className="playlistCard">
-            <h3>Playlist 3</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist3"
-              readOnly
-            />
-          </Card>
-        </div>
+        <PlaylistCard playlistCards={playlistCards} currentUser={currentUser} />
       </div>
     </div>
   );
