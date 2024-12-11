@@ -1,62 +1,53 @@
-// 'use client';
-
-// import { useState } from 'react';
-import authOptions from '@/lib/auth';
+import React from 'react';
+// import { Card, Button, Form } from 'react-bootstrap';
 import { getServerSession } from 'next-auth';
-// import { prisma } from '@/lib/prisma';
-// import SearchBuddies from '../../components/SearchBuddies';
-import { Card } from 'react-bootstrap';
+import authOptions from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import { Playlist } from '@prisma/client';
+import PlaylistCard from '../../components/PlaylistCard';
+import PlaylistForm from '../../components/PlaylistForm';
 import '../../styles/studyPlaylist.style.css';
 
-const studyPlaylist = async () => {
-  // const [search, setSearch] = useState('');
+type ExtendedPlaylist = Playlist & {
+  owner: {
+    id: number;
+    profile?: {
+      firstName: string;
+      lastName: string;
+    };
+  };
+};
 
+const StudyPlaylist = async () => {
   const session = await getServerSession(authOptions);
   if (!session || !session.user || !session.user.email) {
     return <div>Session not found</div>;
   }
+
+  const userSession = session as unknown as { user: { email: string; id: string; randomKey: string } };
+  const currentUser = parseInt(userSession.user.id, 10);
+
+  // Fetch study sessions on the server
+  const playlists: ExtendedPlaylist[] = (await prisma.playlist.findMany({
+    include: {
+      owner: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  })) as ExtendedPlaylist[];
+
   return (
     <div className="playlist">
-      {/* Page Title */}
       <h1 className="studyPlaylistTitle">
         <strong>Study Playlist</strong>
       </h1>
-
-      {/* Playlist Container */}
+      <PlaylistForm currentUser={currentUser} />
       <div className="playlistListDiv">
-        <div className="playlistList">
-          {/* Playlist 1 */}
-          <Card className="playlistCard">
-            <h3>Playlist 1</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist1"
-              readOnly
-            />
-          </Card>
-
-          {/* Playlist 2 */}
-          <Card className="playlistCard">
-            <h3>Playlist 2</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist2"
-              readOnly
-            />
-          </Card>
-
-          {/* Playlist 3 */}
-          <Card className="playlistCard">
-            <h3>Playlist 3</h3>
-            <input
-              type="text"
-              value="https://spotify/playlist3"
-              readOnly
-            />
-          </Card>
-        </div>
+        <PlaylistCard playlists={playlists} />
       </div>
     </div>
   );
 };
-export default studyPlaylist;
+export default StudyPlaylist;

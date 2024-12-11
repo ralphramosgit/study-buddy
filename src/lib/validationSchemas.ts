@@ -36,3 +36,7 @@ export const CreateSessionSchema = Yup.object({
   endTime: Yup.date().required().min(Yup.ref('startTime')),
   image: Yup.string().required(),
 });
+
+export const AddPlaylistSchema = Yup.object({
+  url: Yup.string().url().required(),
+});
