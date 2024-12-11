@@ -60,7 +60,9 @@ const myProfile = async () => {
             ))}
         </div>
         <div className="px-4">
-          <Button className="myBuddiesBtn">Buddies</Button>
+          <Button href="../myBuddies" className="myBuddiesBtn">
+            My Buddies
+          </Button>
         </div>
         <div className="editProfileBtnContainer">
           <Button className="editProfileBtn" href="/editProfile">

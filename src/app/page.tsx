@@ -90,7 +90,7 @@ const Home = () => {
               <iframe
                 width="1100"
                 height="618.75"
-                src="https://www.youtube.com/embed/Tn6-PIqc4UM?si=c9XLqVadHaFoUsFh"
+                src="https://www.youtube.com/embed/auDqvob7254?si=0sPUmew74mybzD63"
                 title="YouTube video player"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write;
