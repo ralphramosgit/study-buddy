@@ -8,20 +8,14 @@ body {
   scroll-padding-top: 70px; /* Offset for fixed navbar, change this based on navbar height */
   scroll-padding-top: 70px; /* Offset for fixed navbar, change this based on navbar height */
 }
-.wrapper {
-  box-sizing: border-box;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 
 .custom-navbar {
   background-color: #7cfbdf;
   position: fixed !important;
   top: 0;
   width: 100%;
-  height: 70px;
-  z-index: 1030; /* Ensure it stays above other content */
+  height: 80px;
+  z-index: 1030;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .custom-navbar a {
@@ -30,23 +24,30 @@ body {
   transition: font-weight 0.3s;
 }
 
+.navbar-collapse {
+  background-color: #7cfbdf;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  border-radius: 15px;
+}
 .custom-navbar a:hover,
 .custom-navbar a:focus,
 .custom-navbar a:active {
   font-weight: bold;
 }
 
-.tutorial-row {
+.about-row {
   background-color: #7cfbdf;
 }
-
+/* 
 .col-centered {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: auto;
   width: 100%;
-}
+} */
 
 .container_temp {
   position: relative;
@@ -60,6 +61,10 @@ body {
   height: 50%;
 }
 
+.tutorialDiv {
+  justify-content: center;
+  align-items: center;
+}
 .overlay {
   position: absolute;
   top: 0;
@@ -101,8 +106,12 @@ body {
   font-size: 20px !important;
   border-radius: 20px !important;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
 }
 
+.get-started:hover {
+  transform: scale(1.1);
+}
 .title:nth-child(1) {
   top: 0%;
   left: 0%;
@@ -117,19 +126,9 @@ body {
   font-size: 120px;
 }
 
-.main-container {
+/* .main-container {
   margin-top: 150px !important;
-}
-
-.vid-overlay {
-  position: absolute;
-  left: 0;
-  width: 1300px;
-  height: 600px;
-  background-color: lightgrey;
-  border-radius: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-}
+} */
 
 .vid-col-centered {
   display: flex;
@@ -138,6 +137,41 @@ body {
   width: 100%;
 }
 
-.navbar-div{
+.navbar-div {
   width: 200px !important;
+}
+
+.about-col-centered {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.aboutImg {
+  height: 700px;
+  border-radius: 40px;
+}
+
+.aboutDes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  width: 700px;
+  height: 700px;
+  border-radius: 40px;
+  background-color: white;
+  color: black;
+}
+
+.aboutP {
+  text-align: center;
+  line-height: 2;
+  font-style: italic;
+}
+
+.quote {
+  font-style: italic;
 }
