@@ -1,4 +1,4 @@
-name: ci-nextjs-application-template
+name: study-buddy
 on:
   push:
     branches: [main, master]
