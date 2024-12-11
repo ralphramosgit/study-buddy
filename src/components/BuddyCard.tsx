@@ -118,7 +118,6 @@ const BuddyCard = ({ buddyList, currentUser }: { buddyList: ExtendedBuddy[]; cur
                       <strong>Major:</strong>
                       {buddy.userDupe.profile?.major ?? 'No Major'}
                     </p>
-                    {buddy.userDupe.profile?.collegeRole ?? 'No College Role'}
                     <p>
                       <strong>Socials:</strong>
                       {buddy.userDupe.profile?.social ?? 'No Social'}
