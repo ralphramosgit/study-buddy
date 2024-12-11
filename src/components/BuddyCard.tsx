@@ -62,7 +62,10 @@ const BuddyCard = ({ buddyList, currentUser }: { buddyList: ExtendedBuddy[]; cur
     return (
       buddy.userDupe.profile?.firstName?.toLowerCase().includes(searchLower) ||
       buddy.userDupe.profile?.lastName?.toLowerCase().includes(searchLower) ||
-      combinedName.includes(searchLower)
+      combinedName.includes(searchLower) ||
+      buddy.userDupe.profile?.major?.toLowerCase().includes(searchLower) ||
+      buddy.userDupe.profile?.collegeRole?.toLowerCase().includes(searchLower) ||
+      buddy.userDupe.profile?.social?.toLowerCase().includes(searchLower)
     );
   });
 

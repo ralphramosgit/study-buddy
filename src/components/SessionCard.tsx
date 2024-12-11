@@ -74,7 +74,12 @@ const SessionCard = ({
       session.owner.profile?.lastName?.toLowerCase().includes(searchLower) ||
       combinedName.includes(searchLower) ||
       session.class.toLowerCase().includes(searchLower) ||
-      session.place.toLowerCase().includes(searchLower)
+      session.place.toLowerCase().includes(searchLower) ||
+      session.users.some(
+        (user) =>
+          user.profile?.firstName.toLowerCase().includes(searchLower) ||
+          user.profile?.lastName.toLowerCase().includes(searchLower),
+      )
     );
   });
 
