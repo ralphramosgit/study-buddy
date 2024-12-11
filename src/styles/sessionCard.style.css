@@ -184,3 +184,34 @@ p {
     grid-template-columns: 1fr; /* Single column for small screens */
   }
 }
+
+.sessionInfoTab.active {
+  color: black;
+}
+
+.custom-tabs .nav-link {
+  background-color: #b9b9b9;
+  color: #333;
+}
+
+.custom-tabs .nav-link.active {
+  background-color: white;
+  color: #000;
+  border-color: #dee2e6 #dee2e6 white;
+}
+
+#sessionModal .modal-dialog {
+  max-width: 90%; /* Optional: to make the modal wider */
+}
+
+#sessionModal .modal-content {
+  border: 10px solid #7cfbdf !important;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+#sessionModal .modal-header {
+  background-color: #7cfbdf;
+  color: black;
+  border: none;
+}

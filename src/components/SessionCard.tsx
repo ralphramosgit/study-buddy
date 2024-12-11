@@ -210,13 +210,15 @@ const SessionCard = ({
       </div>
 
       {selectedSession && (
-        <Modal show={showModal} onHide={handleCloseModal} size="lg" centered>
+        <Modal show={showModal} onHide={handleCloseModal} size="lg" centered id="sessionModal">
           <Modal.Header closeButton>
-            <Modal.Title>{selectedSession.title}</Modal.Title>
+            <Modal.Title>
+              <strong>{selectedSession.title}</strong>
+            </Modal.Title>
           </Modal.Header>
           <Card.Body>
-            <Tabs defaultActiveKey="info" className="mb-3">
-              <Tab eventKey="info" title="Study Session Info">
+            <Tabs defaultActiveKey="info" className="mb-3 custom-tabs">
+              <Tab eventKey="info" title="Study Session Info" className="sessionInfoTab">
                 <Row>
                   <Col>
                     <Image src={selectedSession.image} className="cardImgModal" alt={selectedSession.title} />
@@ -285,9 +287,52 @@ const SessionCard = ({
             </Tabs>
           </Card.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
+            {/* <Button variant="secondary" onClick={handleCloseModal}>
               Close
-            </Button>
+            </Button> */}
+
+            {(() => {
+              if (selectedSession.owner.id === currentUser) {
+                return (
+                  <Button
+                    className="sessionBtn"
+                    href={`/editSession?id=${selectedSession.id}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  >
+                    Edit
+                  </Button>
+                );
+              }
+
+              const isUserInSession = selectedSession.users?.some((user) => user.id === currentUser);
+
+              if (isUserInSession) {
+                return (
+                  <Button
+                    className="removeBtn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      leaveSessionBtn(selectedSession);
+                    }}
+                  >
+                    Leave Session
+                  </Button>
+                );
+              }
+              return (
+                <Button
+                  className="sessionBtn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addSessionBtn(selectedSession);
+                  }}
+                >
+                  Add
+                </Button>
+              );
+            })()}
           </Modal.Footer>
         </Modal>
       )}
