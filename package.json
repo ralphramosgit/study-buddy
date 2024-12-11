@@ -37,6 +37,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.52.0",
     "sweetalert": "^2.1.2",
+    "testcafe": "^3.7.0",
     "ts-node": "10.9.2",
     "yup": "^1.4.0"
   },
@@ -53,6 +54,7 @@
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-config-next": "14.2.10",
     "eslint-config-prettier": "^9.1.0",
+    "playwright": "^1.49.1",
     "prettier": "^3.3.1",
     "prettier-eslint": "^16.3.0",
     "prisma": "^5.22.0",
