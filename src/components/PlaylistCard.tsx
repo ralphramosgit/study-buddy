@@ -3,7 +3,7 @@
 import '../styles/playlistCard.style.css';
 import { Card } from 'react-bootstrap';
 
-const PlaylistCard = ({ studySessions, currentUser }: { studySessions: ExtendedPlaylist[]; currentUser: number }) => (
+const PlaylistCard = ({ studySessions }: { studySessions: ExtendedPlaylist[] }) => (
   <Card className="playlistCard">
     <Card.Title>Playlist Owner</Card.Title>
     <Card.Body>

@@ -82,10 +82,11 @@ model StudySession {
 }
 
 model Playlist {
-  id         Int  @id @default(autoincrement())
-  playlistId Int  @unique
+  id         Int    @id @default(autoincrement())
+  playlistId Int    @unique
+  url        String
   userId     Int
-  owner      User @relation(fields: [userId], references: [id])
+  owner      User   @relation(fields: [userId], references: [id])
 }
 
 enum Condition {

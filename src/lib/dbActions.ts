@@ -1,6 +1,6 @@
 'use server';
 
-import { Stuff, Condition, Profile, StudySession } from '@prisma/client';
+import { Stuff, Condition, Profile, StudySession, Playlist } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
@@ -393,6 +393,17 @@ export async function createBuddy(user: { id: number }) {
       },
     },
   });
+}
+
+export async function addPlaylist(playlist: Playlist) {
+  await prisma.playlist.create({
+    data: {
+      playlistId: playlist.playlistId,
+      userId: playlist.userId,
+      url: playlist.url,
+    },
+  });
+  redirect('/studyPlaylist');
 }
 
 /**
