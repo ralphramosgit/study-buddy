@@ -1,20 +1,39 @@
 'use client';
 
+import { Playlist } from '@prisma/client';
 import '../styles/playlistCard.style.css';
 import { Card } from 'react-bootstrap';
 
-const PlaylistCard = ({ studySessions }: { studySessions: ExtendedPlaylist[] }) => (
-  <Card className="playlistCard">
-    <Card.Title>Playlist Owner</Card.Title>
-    <Card.Body>
-      <div>
-        <h3>Playlist Owner</h3>
-        <a href="playlist.com" target="_blank">
-          playlist here
-        </a>
-      </div>
-    </Card.Body>
-  </Card>
+type ExtendedPlaylist = Playlist & {
+  owner: {
+    id: number;
+    profile?: {
+      firstName: string;
+      lastName: string;
+    };
+  };
+};
+
+const PlaylistCard = ({ playlists }: { playlists: ExtendedPlaylist[] }) => (
+  <div>
+    <div className="playlistCards">
+      {playlists.map((playlist) => (
+        <Card className="playlistCard">
+          <Card.Title>
+            <h3>{`${playlist.owner.profile?.firstName} ${playlist.owner.profile?.lastName}'s Playlist`}</h3>
+          </Card.Title>
+          <Card.Body>
+            <div>
+              {/* <h3>{`${playlist.owner.profile?.firstName} ${playlist.owner.profile?.lastName}'s Playlist`}</h3> */}
+              <a href={playlist.url} target="_blank" rel="noreferrer">
+                {playlist.url}
+              </a>
+            </div>
+          </Card.Body>
+        </Card>
+      ))}
+    </div>
+  </div>
 );
 
 export default PlaylistCard;

@@ -1,18 +1,11 @@
-'use client';
-
 import React from 'react';
-import { Card, Button, Form } from 'react-bootstrap';
-import { useSession } from 'next-auth/react';
-import { yupResolver } from '@hookform/resolvers/yup';
+// import { Card, Button, Form } from 'react-bootstrap';
+import { getServerSession } from 'next-auth';
+import authOptions from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { Playlist } from '@prisma/client';
-import { useForm } from 'react-hook-form';
-import { addPlaylist } from '@/lib/dbActions';
-import swal from 'sweetalert';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import { redirect } from 'next/navigation';
-import { AddPlaylistSchema } from '@/lib/validationSchemas';
 import PlaylistCard from '../../components/PlaylistCard';
-
+import PlaylistForm from '../../components/PlaylistForm';
 import '../../styles/studyPlaylist.style.css';
 
 type ExtendedPlaylist = Playlist & {
@@ -25,60 +18,36 @@ type ExtendedPlaylist = Playlist & {
   };
 };
 
-const onSubmit = async (data: { url: string }, session: any) => {
-  const currentUser = parseInt(session?.user?.id, 10);
-
-  await addPlaylist({
-    id: Math.floor(Math.random() * 10000),
-    playlistId: Math.floor(Math.random() * 10000),
-    userId: currentUser,
-    url: data.url,
-  });
-
-  swal('Success!', 'Added playlist', 'success', {
-    timer: 1000,
-  });
-};
-
-const studyPlaylist: React.FC = () => {
-  const { data: session, status } = useSession();
-  const { register, handleSubmit } = useForm({
-    resolver: yupResolver(AddPlaylistSchema),
-  });
-
-  if (status === 'loading') {
-    return <LoadingSpinner />;
+const StudyPlaylist = async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.email) {
+    return <div>Session not found</div>;
   }
-  if (status === 'unauthenticated') {
-    redirect('/auth/signin');
-  }
+
+  const userSession = session as unknown as { user: { email: string; id: string; randomKey: string } };
+  const currentUser = parseInt(userSession.user.id, 10);
+
+  // Fetch study sessions on the server
+  const playlists: ExtendedPlaylist[] = (await prisma.playlist.findMany({
+    include: {
+      owner: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  })) as ExtendedPlaylist[];
 
   return (
     <div className="playlist">
       <h1 className="studyPlaylistTitle">
         <strong>Study Playlist</strong>
       </h1>
-
-      <Card className="playlistFormCard">
-        <Card.Body>
-          <Form onSubmit={handleSubmit((data) => onSubmit(data, session))}>
-            <Form.Group>
-              <Form.Label>Share your study playlist</Form.Label>
-              <input type="text" placeholder="Enter playlist URL" {...register('url')} />
-            </Form.Group>
-            <Form.Group>
-              <Button className="cSbutton" type="submit" variant="primary">
-                Add Playlist
-              </Button>
-            </Form.Group>
-          </Form>
-        </Card.Body>
-      </Card>
-
+      <PlaylistForm currentUser={currentUser} />
       <div className="playlistListDiv">
-        <PlaylistCard playlistCards={playlistCards} />
+        <PlaylistCard playlists={playlists} />
       </div>
     </div>
   );
 };
-export default studyPlaylist;
+export default StudyPlaylist;
