@@ -23,9 +23,8 @@ const PlaylistCard = ({ playlists }: { playlists: ExtendedPlaylist[] }) => (
             <h3>{`${playlist.owner.profile?.firstName} ${playlist.owner.profile?.lastName}'s Playlist`}</h3>
           </Card.Title>
           <Card.Body>
-            <div>
-              {/* <h3>{`${playlist.owner.profile?.firstName} ${playlist.owner.profile?.lastName}'s Playlist`}</h3> */}
-              <a href={playlist.url} target="_blank" rel="noreferrer">
+            <div className="playlistCardCont">
+              <a id="urlText" href={playlist.url} target="_blank" rel="noreferrer">
                 {playlist.url}
               </a>
             </div>
