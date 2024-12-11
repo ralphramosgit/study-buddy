@@ -47,9 +47,9 @@ const Buddies = async () => {
   })) as ExtendedBuddy[];
 
   return (
-    <div className="buddies">
+    <div className="">
       <h1 className="buddiesPageTitle">
-        <strong>Buddies</strong>
+        <strong>Study Playlist</strong>
       </h1>
       {/* <SearchBuddies search={search} setSearch={setSearch} /> */}
       <div className="buddiesListDiv">
