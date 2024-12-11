@@ -49,7 +49,7 @@ const Buddies = async () => {
   return (
     <div className="">
       <h1 className="buddiesPageTitle">
-        <strong>Study Playlist</strong>
+        <strong>Buddies</strong>
       </h1>
       {/* <SearchBuddies search={search} setSearch={setSearch} /> */}
       <div className="buddiesListDiv">
