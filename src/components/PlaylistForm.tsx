@@ -71,7 +71,12 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({ currentUser }) => {
             <Row>
               <Col xs={10} className="mx-auto px-2">
                 <Form.Group>
-                  <input type="text" className="form-control" placeholder="Enter playlist URL" {...register('url')} />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Enter playlist URL (spotify links only)"
+                    {...register('url')}
+                  />
                 </Form.Group>
               </Col>
               <Col xs={2} className="d-flex">
