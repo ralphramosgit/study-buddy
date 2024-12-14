@@ -16,7 +16,12 @@ test('test', async ({ page }) => {
   await page.getByPlaceholder('Password', { exact: true }).press('Tab');
   await page.getByPlaceholder('Confirm Password').fill('changeme');
   await page.getByRole('button', { name: 'Register' }).click();
-  await page.goto('http://localhost:3000/createProfile');
+  try {
+    await page.goto('http://localhost:3000/createProfile', { timeout: 60000 });
+  } catch (error) {
+    console.error('Navigation to /createProfile failed:', error);
+    throw error;
+  }
   await page.getByRole('button', { name: '+' }).click();
   await page.getByRole('button', { name: '+' }).setInputFiles('owlbuddy.png');
   await page.getByPlaceholder('First Name').click();

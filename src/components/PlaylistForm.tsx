@@ -15,6 +15,11 @@ interface PlaylistFormProps {
   currentUser: number;
 }
 
+const isValidSpotifyUrl = (url: string) => {
+  const spotifyUrlPattern = /^https:\/\/open\.spotify\.com\/playlist\/[a-zA-Z0-9]+(\?.*)?$/;
+  return spotifyUrlPattern.test(url);
+};
+
 const PlaylistForm: React.FC<PlaylistFormProps> = ({ currentUser }) => {
   const { status } = useSession();
   const { register, handleSubmit } = useForm({
@@ -25,16 +30,34 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({ currentUser }) => {
     redirect('/auth/signin');
   }
   const onSubmit = async (data: { url: string }) => {
-    await addPlaylist({
-      id: Math.floor(Math.random() * 10000),
-      playlistId: Math.floor(Math.random() * 10000),
-      userId: currentUser,
-      url: data.url,
-    });
+    if (!isValidSpotifyUrl(data.url)) {
+      swal('Error', 'Please enter a valid Spotify playlist URL', 'error');
+      return;
+    }
 
-    swal('Success!', 'Added playlist', 'success', {
-      timer: 1000,
-    });
+    try {
+      await addPlaylist({
+        id: Math.floor(Math.random() * 10000),
+        playlistId: Math.floor(Math.random() * 10000),
+        userId: currentUser,
+        url: data.url,
+      });
+      swal('Success!', 'Added playlist', 'success', {
+        buttons: {
+          confirm: {
+            visible: true,
+            closeModal: true,
+          },
+        },
+        closeOnClickOutside: true,
+        closeOnEsc: true,
+        timer: 1500,
+      }).then(() => {
+        window.location.reload();
+      });
+    } catch (error) {
+      swal('Error', 'Failed to add playlist', 'error');
+    }
   };
 
   return (
