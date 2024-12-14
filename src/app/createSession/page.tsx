@@ -40,7 +40,13 @@ const onSubmit = async (
 const CreateSessionPage: React.FC = () => {
   const { data: session, status } = useSession();
   const [image, setImage] = useState<string | null>(null);
-  const { register, handleSubmit, setValue, control } = useForm({
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(CreateSessionSchema),
   });
   if (status === 'loading') {
@@ -88,7 +94,13 @@ const CreateSessionPage: React.FC = () => {
                     <Col>
                       <Form.Group>
                         <Form.Label>Session Title</Form.Label>
-                        <input type="text" {...register('title')} className="form-control" placeholder="Enter Title" />
+                        <input
+                          type="text"
+                          {...register('title')}
+                          className={`form-control ${errors.title ? 'is-invalid' : ''}`}
+                          placeholder="Enter Title"
+                        />
+                        <div className="invalid-feedback" />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -102,7 +114,7 @@ const CreateSessionPage: React.FC = () => {
                           render={({ field }) => (
                             <DatePicker
                               selected={field.value}
-                              className="form-control"
+                              className={`form-control ${errors.sessionDate ? 'is-invalid' : ''}`}
                               onChange={(date) => field.onChange(date)}
                               dateFormat="MMMM d, yyyy"
                               placeholderText="Select session date"
@@ -110,6 +122,7 @@ const CreateSessionPage: React.FC = () => {
                             />
                           )}
                         />
+                        <div className="invalid-feedback" />
                       </Form.Group>
                     </Col>
                     <Col>
@@ -122,7 +135,7 @@ const CreateSessionPage: React.FC = () => {
                             <input
                               id="startTime"
                               type="time"
-                              className="form-control"
+                              className={`form-control ${errors.startTime ? 'is-invalid' : ''}`}
                               value={field.value ? field.value.toTimeString().slice(0, 5) : ''}
                               onChange={(e) => {
                                 const time = new Date();
@@ -133,6 +146,7 @@ const CreateSessionPage: React.FC = () => {
                             />
                           )}
                         />
+                        <div className="invalid-feedback" />
                       </Form.Group>
                     </Col>
                     <Col>
@@ -145,7 +159,7 @@ const CreateSessionPage: React.FC = () => {
                             <input
                               id="endTime"
                               type="time"
-                              className="form-control"
+                              className={`form-control ${errors.endTime ? 'is-invalid' : ''}`}
                               value={field.value ? field.value.toTimeString().slice(0, 5) : ''}
                               onChange={(e) => {
                                 const time = new Date();
@@ -156,6 +170,7 @@ const CreateSessionPage: React.FC = () => {
                             />
                           )}
                         />
+                        <div className="invalid-feedback" />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -166,9 +181,10 @@ const CreateSessionPage: React.FC = () => {
                         <input
                           type="text"
                           {...register('description')}
-                          className="form-control"
+                          className={`form-control ${errors.description ? 'is-invalid' : ''}`}
                           placeholder="Enter Session Description"
                         />
+                        <div className="invalid-feedback" />
                       </Form.Group>
                     </Col>
                   </Row>
@@ -217,9 +233,10 @@ const CreateSessionPage: React.FC = () => {
                             <input
                               type="text"
                               {...register('class')}
-                              className="form-control"
+                              className={`form-control ${errors.class ? 'is-invalid' : ''}`}
                               placeholder="Enter Class"
                             />
+                            <div className="invalid-feedback" />
                           </Form.Group>
                         </Col>
                       </Row>
@@ -230,9 +247,10 @@ const CreateSessionPage: React.FC = () => {
                             <input
                               type="text"
                               {...register('place')}
-                              className="form-control"
+                              className={`form-control ${errors.place ? 'is-invalid' : ''}`}
                               placeholder="Where to study"
                             />
+                            <div className="invalid-feedback" />
                           </Form.Group>
                         </Col>
                       </Row>
