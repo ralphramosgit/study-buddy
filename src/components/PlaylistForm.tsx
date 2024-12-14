@@ -52,8 +52,6 @@ const PlaylistForm: React.FC<PlaylistFormProps> = ({ currentUser }) => {
         closeOnClickOutside: true,
         closeOnEsc: true,
         timer: 1500,
-      }).then(() => {
-        window.location.reload();
       });
     } catch (error) {
       swal('Error', 'Failed to add playlist', 'error');
